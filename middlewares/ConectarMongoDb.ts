@@ -21,3 +21,5 @@ export const ConectarMongoDb = (handler: NextApiHandler) => async(req: NextApiRe
 
     return handler(req, res)
 }
+
+export default ConectarMongoDb;
