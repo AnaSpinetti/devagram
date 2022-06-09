@@ -3,7 +3,7 @@ import type { PadraoResponse } from "../types/PadraoResponse";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export const ValidarJWT = (handler: NextApiHandler) => (req: NextApiRequest, res: NextApiResponse) => {
+export const ValidarJWT = (handler: NextApiHandler) => (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     const {CHAVE_JWT} = process.env
     if(!CHAVE_JWT){
         return res.status(500).json({error: "Chave JWT não informada"})
