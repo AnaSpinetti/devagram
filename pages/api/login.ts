@@ -3,40 +3,48 @@ import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import type { PadraoResponse } from "../../types/PadraoResponse";
 import bcrypt from "bcryptjs";
 import { UsuarioModel } from "../../models/UsuarioModel";
-import Jwt  from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
 import { loginResponse } from "../../types/LoginResponse";
 
 const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse | loginResponse>) => {
-    const { CHAVE_JWT } = process.env;
-    if(!CHAVE_JWT){
-      return res.status(500).json({error: "ENV chave jwt não infomada"})
-    }
-    
-    if(req.method !== 'POST'){
-        return res.status(405).json({error: "O método informado é inválido"})
-    }
+  const { CHAVE_JWT } = process.env;
+  if (!CHAVE_JWT) {
+    return res.status(500).json({ error: "ENV chave jwt não infomada" })
+  }
 
-    const { email, senha } = req.body;
-    
-    if(!email || !senha){
-        return res.status(400).json({error: "Informe todos os dados para prosseguir"})
-    } 
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: "O método informado é inválido" })
+  }
 
-    // TODO - VERIFICAR COMO COMPARAR A SENHA CRIPTOGRAFADA
-    const usuarioslocalizados = await UsuarioModel.find({ email: email, senha: senha });
-    if(usuarioslocalizados && usuarioslocalizados.length > 0){
-      const usuarioEncontrado = usuarioslocalizados[0];
+  const { email, senha } = req.body;
 
-      const token = Jwt.sign({_id: usuarioEncontrado._id}, CHAVE_JWT)
+  if (!email || !senha) {
+    return res.status(400).json({ error: "Informe todos os dados para prosseguir" })
+  }
+
+  // TODO - VERIFICAR COMO COMPARAR A SENHA CRIPTOGRAFADA
+  const usuarioslocalizados = await UsuarioModel.find({ email: email });
+
+  if (usuarioslocalizados && usuarioslocalizados.length > 0) {
+    const usuarioEncontrado = usuarioslocalizados[0];
+
+    console.log(usuarioEncontrado)
+    const senhaDecoded = await bcrypt.compare(senha, usuarioEncontrado.senha)
+
+    console.log(senhaDecoded)
+
+    if(senhaDecoded === true){
+      const token = Jwt.sign({ _id: usuarioEncontrado._id }, CHAVE_JWT)
 
       return res.status(200).json({
-        nome: usuarioEncontrado.nome, 
-        email: usuarioEncontrado.email, 
+        nome: usuarioEncontrado.nome,
+        email: usuarioEncontrado.email,
         token
       })
     }
-    
-      return res.status(400).json({error: "Usuário não localizado"})
+  }
+
+return res.status(400).json({ error: "Usuário não localizado" })
     
 };
 
