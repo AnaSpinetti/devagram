@@ -28,10 +28,7 @@ const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoRes
   if (usuarioslocalizados && usuarioslocalizados.length > 0) {
     const usuarioEncontrado = usuarioslocalizados[0];
 
-    console.log(usuarioEncontrado)
     const senhaDecoded = await bcrypt.compare(senha, usuarioEncontrado.senha)
-
-    console.log(senhaDecoded)
 
     if(senhaDecoded === true){
       const token = Jwt.sign({ _id: usuarioEncontrado._id }, CHAVE_JWT)

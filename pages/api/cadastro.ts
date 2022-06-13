@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
-import type { CadastroResponse } from "../../types/CadastroResponse";
 import type { PadraoResponse } from "../../types/PadraoResponse";
+import type { CadastroRequest } from "../../types/CadastroRequest";
 import { UsuarioModel } from "../../models/UsuarioModel";
+import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import bcrypt from "bcryptjs";
 import { upload, UploadImagemCosmic } from "../../services/UploadImagemCosmic";
 import nc from "next-connect";
@@ -11,26 +11,20 @@ const handler = nc()
     .use(upload.single('file'))
     .post(async (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
         try {
-            const usuario = req.body as CadastroResponse;
+            const usuario = req.body as CadastroRequest;
 
-            if (!usuario.nome || !usuario.email || !usuario.senha) {
-                return res.status(400).json({ error: "Informe todos os dados para prosseguir" })
+            if(!usuario.nome || usuario.nome.length < 2){
+                return res.status(400).json({error : 'Nome invalido'});
             }
 
-            if (usuario.senha.length < 5) {
-                return res.status(400).json({ error: "A senha deve possuir mais de 5 caracteres" });
+            if(!usuario.email || usuario.email.length < 5
+                || !usuario.email.includes('@')
+                || !usuario.email.includes('.')){
+                return res.status(400).json({error : 'Email invalido'});
             }
 
-            if (usuario.nome.length < 2) {
-                return res.status(400).json({ error: "O nome deve possuir no mínimo 2 caracteres" });
-            }
-
-            if (!usuario.email.includes('@') || !usuario.email.includes('.')) {
-                return res.status(400).json({ error: "O email informado é inválido" });
-            }
-
-            if (usuario.email.length < 5) {
-                return res.status(400).json({ error: "O email informado é inválido" });
+            if(!usuario.senha || usuario.senha.length < 4){
+                return res.status(400).json({error : 'Senha invalida'});
             }
 
             const userExists = await UsuarioModel.find({ email: usuario.email })
@@ -51,21 +45,22 @@ const handler = nc()
                 nome: usuario.nome,
                 email: usuario.email,
                 senha: senhaCriptografada,
-                avatar: image.media.url
+                avatar: image?.media?.url
             }
-
+            
             await UsuarioModel.create(usuarioASerSalvo);
             return res.status(200).json({ message: "Usuário cadastrado com sucesso" })
         }catch (e:any) {
-            return res.status(400).json({ error: e.toString()})
+            console.log(e)
+            return res.status(400).json({ error: e.message})
         }
     })
 
 
-export const config = {
-    api: {
-        bodyparser: false
-    }
-}    
+    export const config = {
+        api: {
+            bodyParser: false
+        }
+    }    
 
 export default ConectarMongoDb(handler);
