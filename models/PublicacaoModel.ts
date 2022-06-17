@@ -1,7 +1,12 @@
 import mongoose, {Schema} from "mongoose";
 
 const PublicacaoSchema = new Schema({
-    imagem: { type: String, required: true }
+    idUsuario: { type: String, required: true},
+    descricao: { type: String, default: " ", required: false },
+    imagem: { type: String, required: true },
+    data: {type: Date, required: true},
+    likes: {type: Array, required: true, default: []},
+    comentarios: {type: Array, required: true, default: []}
 })
 
 export const PublicacaoModel = (mongoose.models.publicacoes || mongoose.model("publicacoes", PublicacaoSchema))
