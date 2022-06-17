@@ -60,4 +60,11 @@ const handler = nc()
     }
     })
 
+
+    export const config = {
+        api: {
+            bodyParser: false
+        }
+    }    
+    
 export default ValidarJWT(ConectarMongoDb(handler));
