@@ -27,7 +27,7 @@ const handler = nc()
             const {descricao} = req?.body;
             
 
-            if(!req.file || req.file.originalname){
+            if(!req.file || !req.file.originalname){
                 return res.status(400).json({error: `A imagem é obrigatória`});
             }
 
@@ -44,9 +44,9 @@ const handler = nc()
 
             return res.status(200).json({message: 'Publicação criada com sucesso'})
 
-        } catch (error: any) {
-            console.log(`Ocorreu um erro inesperado ${error}`)
-            return res.status(400).json({ error: error.message})
+        } catch (e: any) {
+            console.log(`Ocorreu um erro inesperado ${e}`)
+            return res.status(400).json(e.toString())
         }
     })
     

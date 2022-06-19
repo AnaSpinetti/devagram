@@ -4,7 +4,8 @@ import type { PadraoResponse } from "../types/PadraoResponse";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const ValidarJWT = (handler: NextApiHandler) => (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
-    const {CHAVE_JWT} = process.env
+    try {
+        const {CHAVE_JWT} = process.env
     if(!CHAVE_JWT){
         return res.status(500).json({error: "Chave JWT não informada"})
     }
@@ -35,6 +36,10 @@ export const ValidarJWT = (handler: NextApiHandler) => (req: NextApiRequest, res
         }
         // Caso tenhamos, adicionamos o ID do usuário para ser usado nas requisições
         req.query.userId = decoded._id;
+    }
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({error: 'Erro ao validar token de acesso'})
     }
 
     return handler(req, res)

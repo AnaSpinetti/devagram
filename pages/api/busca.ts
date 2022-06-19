@@ -31,6 +31,10 @@ export const buscaEndPoint = async (req: NextApiRequest, res: NextApiResponse<Pa
                     { email: { $regex: filtro, $options: 'i' } }]
                 })
 
+                usuarioslocalizados.forEach(element => {
+                    element.senha=null;
+                });
+
                 if (!usuarioslocalizados) {
                     return res.status(400).json({ error: 'Nenhum usuário localizado' })
                 }

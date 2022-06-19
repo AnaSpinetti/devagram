@@ -44,10 +44,6 @@ const handler = nc()
     try {
         // Buscando o usuario logado
         const { userId } = req?.query;
-        if(!req?.query?.id){
-            return res.status(400).json({error: 'Usuário não localizado'})
-        }
-
         const usuario = await UsuarioModel.findById(userId);
 
         usuario.senha = null;
