@@ -4,6 +4,7 @@ import ConectarMongoDb from "../../middlewares/ConectarMongoDb";
 import { ValidarJWT } from "../../middlewares/ValidarJWT";
 import { PublicacaoModel } from "../../models/PublicacaoModel";
 import { UsuarioModel } from "../../models/UsuarioModel";
+import { PoliticaCors } from "../../middlewares/politicaCors";
 
 const endpointLike = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     try {
@@ -44,4 +45,4 @@ const endpointLike = async (req: NextApiRequest, res: NextApiResponse<PadraoResp
     }
 }
 
-export default ValidarJWT(ConectarMongoDb(endpointLike))
+export default PoliticaCors(ValidarJWT(ConectarMongoDb(endpointLike)))

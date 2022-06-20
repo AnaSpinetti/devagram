@@ -3,6 +3,7 @@ import type { PadraoResponse } from "../../types/PadraoResponse";
 import { ValidarJWT } from "../../middlewares/ValidarJWT";
 import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import { UsuarioModel } from "../../models/UsuarioModel";
+import { PoliticaCors } from "../../middlewares/politicaCors";
 
 export const buscaEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse | any[]>) => {
     try {
@@ -51,4 +52,4 @@ export const buscaEndPoint = async (req: NextApiRequest, res: NextApiResponse<Pa
     }
 }
 
-export default ValidarJWT(ConectarMongoDb(buscaEndPoint));
+export default PoliticaCors(ValidarJWT(ConectarMongoDb(buscaEndPoint)));

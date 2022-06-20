@@ -6,6 +6,7 @@ import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import bcrypt from "bcryptjs";
 import { upload, UploadImagemCosmic } from "../../services/UploadImagemCosmic";
 import nc from "next-connect";
+import { PoliticaCors } from "../../middlewares/politicaCors";
 
 const handler = nc()
     .use(upload.single('file'))
@@ -63,4 +64,4 @@ const handler = nc()
         }
     }    
 
-export default ConectarMongoDb(handler);
+export default PoliticaCors(ConectarMongoDb(handler));

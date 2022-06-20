@@ -8,6 +8,7 @@ import { UsuarioModel } from "../../models/UsuarioModel";
 import { upload, UploadImagemCosmic } from "../../services/UploadImagemCosmic";
 import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import { ValidarJWT } from "../../middlewares/ValidarJWT";
+import { PoliticaCors } from "../../middlewares/politicaCors";
 
 const handler = nc()
     .use(upload.single('file'))
@@ -59,4 +60,4 @@ const handler = nc()
         }
     }
 
-export default ValidarJWT(ConectarMongoDb(handler));
+export default PoliticaCors(ValidarJWT(ConectarMongoDb(handler)));

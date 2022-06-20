@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import Jwt from "jsonwebtoken";
 import { loginResponse } from "../../types/LoginResponse";
+import { PoliticaCors } from "../../middlewares/politicaCors";
 
 const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse | loginResponse>) => {
   const { CHAVE_JWT } = process.env;
@@ -45,4 +46,4 @@ return res.status(400).json({ error: "Usuário não localizado" })
     
 };
 
-export default ConectarMongoDb(loginEndPoint);
+export default PoliticaCors(ConectarMongoDb(loginEndPoint));
