@@ -37,8 +37,19 @@ const feedEndpoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResp
                     ]    
                 }).sort({data: -1})
 
+                const resultado = [];
+                for (const publicacao of publicacoes) {
+                    const usuarioDaPublicacao = await UsuarioModel.findById(publicacao.idUsuario);
+                    if(usuarioDaPublicacao){
+                        const resultadoFinal = {...publicacao._doc, usuario: {
+                            nome: usuarioDaPublicacao.nome,
+                            avatar: usuarioDaPublicacao.avatar
+                        }};
+                        resultado.push(resultadoFinal)
+                    }
+                }
 
-                return res.status(200).json(publicacoes)
+                return res.status(200).json(resultado)
             }
         }
         return res.status(405).json({error: 'O método informado é inválido'})
