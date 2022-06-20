@@ -4,7 +4,7 @@ import {ConectarMongoDb} from "../../middlewares/ConectarMongoDb";
 import { ValidarJWT } from "../../middlewares/ValidarJWT";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { SeguidorModel } from "../../models/SeguidorModel";
-import { PoliticaCors } from "../../middlewares/politicaCors";
+import { PoliticaCors } from "../../middlewares/PoliticaCors";
 
 const seguirEndpoint = async(req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     try {

@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import Jwt from "jsonwebtoken";
 import { loginResponse } from "../../types/LoginResponse";
-import { PoliticaCors } from "../../middlewares/politicaCors";
+import { PoliticaCors } from "../../middlewares/PoliticaCors";
 
 const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse | loginResponse>) => {
   const { CHAVE_JWT } = process.env;

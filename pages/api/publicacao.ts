@@ -8,7 +8,7 @@ import { UsuarioModel } from "../../models/UsuarioModel";
 import { upload, UploadImagemCosmic } from "../../services/UploadImagemCosmic";
 import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import { ValidarJWT } from "../../middlewares/ValidarJWT";
-import { PoliticaCors } from "../../middlewares/politicaCors";
+import { PoliticaCors } from "../../middlewares/PoliticaCors";
 
 const handler = nc()
     .use(upload.single('file'))

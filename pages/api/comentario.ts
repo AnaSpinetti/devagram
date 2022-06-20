@@ -4,7 +4,7 @@ import { ValidarJWT } from "../../middlewares/ValidarJWT";
 import { ConectarMongoDb } from "../../middlewares/ConectarMongoDb";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { PublicacaoModel } from "../../models/PublicacaoModel";
-import { PoliticaCors } from "../../middlewares/politicaCors";
+import { PoliticaCors } from "../../middlewares/PoliticaCors";
 
 const comentarioEndpoint = async (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     try {
