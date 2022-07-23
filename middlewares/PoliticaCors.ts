@@ -5,8 +5,8 @@ import NextCors from "nextjs-cors";
 export const PoliticaCors = (handler: NextApiHandler) => async(req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     try {
         await NextCors(req, res, {
-            origin: '*',
-            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            origin: "*",
+            methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             optionsSuccessStatus: 200,
         })
 
