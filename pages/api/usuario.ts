@@ -43,7 +43,7 @@ const handler = nc()
     })
     .get(async (req: NextApiRequest, res: NextApiResponse<PadraoResponse>) => {
     try {
-        // Buscando o usuario logado
+        // Buscando o usuario logado.
         const { userId } = req?.query;
         const usuario = await UsuarioModel.findById(userId);
 
