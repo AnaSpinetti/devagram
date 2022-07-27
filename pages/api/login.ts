@@ -29,6 +29,10 @@ const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoRes
   if (usuarioslocalizados && usuarioslocalizados.length > 0) {
     const usuarioEncontrado = usuarioslocalizados[0];
 
+    if(usuarioslocalizados.length == 0){
+      return res.status(400).json({error: 'O usuário não existe'})
+    }
+
     const senhaDecoded = await bcrypt.compare(senha, usuarioEncontrado.senha)
 
     if(senhaDecoded === true){
@@ -42,7 +46,7 @@ const loginEndPoint = async (req: NextApiRequest, res: NextApiResponse<PadraoRes
     }
   }
 
-return res.status(400).json({ error: "Usuário não localizado" })
+return res.status(400).json({ error: "Verifique o usuário e a senha" })
     
 };
 
