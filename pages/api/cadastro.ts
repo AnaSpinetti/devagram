@@ -39,7 +39,8 @@ const handler = nc()
             var senhaCriptografada = bcrypt.hashSync(usuario.senha, salt);
             
             // Enviar a imagem do multer para o cosmic
-            const image = await uploadImagemCosmic(req);
+            var image = uploadImagemCosmic(req);
+
             
             // Usuário que será salvo no BD
             const usuarioASerSalvo = {
@@ -48,7 +49,6 @@ const handler = nc()
                 senha: senhaCriptografada,
                 avatar: image?.media?.url
             }
-
             
             await UsuarioModel.create(usuarioASerSalvo);
             return res.status(200).json({ message: "Usuário cadastrado com sucesso" })
