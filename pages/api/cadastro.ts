@@ -39,7 +39,7 @@ const handler = nc()
             var senhaCriptografada = bcrypt.hashSync(usuario.senha, salt);
             
             // Enviar a imagem do multer para o cosmic
-            var image = uploadImagemCosmic(req);
+            var image = await uploadImagemCosmic(req);
 
             
             // Usuário que será salvo no BD
